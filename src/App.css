@@ -20,6 +20,13 @@ div {
   padding-left: 20px;
 }
 
+.modal {
+  padding-top: 20px;
+  background: #eee;
+  padding: 20px;
+  text-align: left;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

@@ -17,12 +17,18 @@ function App() {
     setTitle(newTitles); // 새로운 배열을 상태로 설정
   };
 
+  const sortTitle = () => {
+    let sortTitle = [...글제목].sort();
+    setTitle(sortTitle);
+  };
+
   return (
     <div className="App">
       <div className="black-nav">
         <h4>블로그</h4>
       </div>
       <button onClick={updateTitle}>버튼</button>
+      <button onClick={sortTitle}>가나다순 정렬</button>
       <div className="list">
         <h4>
           {글제목[0]} <span onClick={addLike}>👍🏻</span> {좋아요}
@@ -31,7 +37,22 @@ function App() {
       <div className="list">
         <h4>{글제목[1]}</h4>
       </div>
+      <div className="list">
+        <h4>{글제목[2]}</h4>
+      </div>
+      <DetailPage></DetailPage>
     </div>
+  );
+}
+
+// 이거를 컴포넌트라고 부른다.
+function DetailPage() {
+  return (
+    <>
+      <div className="modal">
+        <h4>제목</h4>
+      </div>
+    </>
   );
 }
 
