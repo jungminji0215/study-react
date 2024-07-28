@@ -3,41 +3,33 @@ import "./App.css";
 import { useState } from "react";
 
 function App() {
-  let [title, setTitle] = useState([
-    "남자 코트 추천",
-    "강남 우동 맛집",
-    "자바 독학",
-  ]);
-  let [like, setLike] = useState(0);
+  let title = "강남우동맛집";
+  let [글제목, setTitle] = useState(["남자코트추천", "강보경", "정보경"]);
+  let [좋아요, setLike] = useState(0);
 
-  function 좋아요() {
-    setLike(like + 1);
-  }
+  const addLike = () => {
+    setLike(좋아요 + 1);
+  };
 
-  function 제목변경() {
-    setTitle((title[0] = "여자 코트 추천"));
-  }
+  const updateTitle = () => {
+    let newTitles = [...글제목]; // 새로운 배열을 만들어서
+    newTitles[0] = "여자코트추천"; // 첫 번째 제목을 변경
+    setTitle(newTitles); // 새로운 배열을 상태로 설정
+  };
 
   return (
     <div className="App">
       <div className="black-nav">
-        <h4 style={{ color: "red" }}>ReactBlog</h4>
+        <h4>블로그</h4>
       </div>
-      <span onClick={제목변경}>click</span>
+      <button onClick={updateTitle}>버튼</button>
       <div className="list">
         <h4>
-          {title[0]}
-          <span onClick={좋아요}>👍🏻</span> {like}
+          {글제목[0]} <span onClick={addLike}>👍🏻</span> {좋아요}
         </h4>
-        <p>2월 15일 발행</p>
       </div>
       <div className="list">
-        <h4>{title[1]}</h4>
-        <p>2월 15일 발행</p>
-      </div>
-      <div className="list">
-        <h4>{title[2]}</h4>
-        <p>2월 15일 발행</p>
+        <h4>{글제목[1]}</h4>
       </div>
     </div>
   );
