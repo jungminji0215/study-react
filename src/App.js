@@ -2,14 +2,22 @@ import logo from "./logo.svg";
 import "./App.css";
 import { useState } from "react";
 
+/**
+ * 이 파일의 구조는 App 컴포넌트 안에 Modal 컴포넌트가 있는 구조이다.
+ * App 의 state 를 Modal 로 전달해줄 수 있다. 전송할 때는 props 문법을 사용하면 된다.
+ */
+
+// 이거 하나하나 컴포넌트!!
 function App() {
   let title = "강남우동맛집";
   let [글제목, setTitle] = useState(["남자코트추천", "강보경", "정보경"]);
   let [좋아요, setLike] = useState([0, 0, 0]);
   let [modal, setModel] = useState(false);
 
-  const addLike = () => {
-    setLike(좋아요 + 1);
+  const addLike = (index) => {
+    let copy = [...좋아요];
+    copy[index] = copy[index] + 1;
+    setLike(copy);
   };
 
   const updateTitle = () => {
@@ -24,7 +32,6 @@ function App() {
   };
 
   const openModal = () => {
-    console.log(modal);
     if (modal === true) {
       setModel(false);
     } else {
@@ -47,9 +54,7 @@ function App() {
               {글제목[index]}
               <span
                 onClick={() => {
-                  let copy = [...좋아요];
-                  copy[index] = copy[index] + 1;
-                  setLike(copy);
+                  addLike(index);
                 }}
               >
                 👍🏻
@@ -60,19 +65,26 @@ function App() {
         );
       })}
 
-      {modal === true ? <Modal /> : null}
+      {modal === true ? <Modal 글제목={글제목} setTitle={setTitle} /> : null}
     </div>
   );
 }
 
 // 이거를 컴포넌트라고 부른다.
-function Modal() {
+function Modal(props) {
   return (
-    <>
-      <div className="modal">
-        <h4>제목</h4>
-      </div>
-    </>
+    <div className="modal">
+      <h4>{props.글제목}</h4>
+      <button
+        onClick={() => {
+          let newTitles = [...props.글제목];
+          newTitles[0] = "여자코트추천";
+          props.setTitle(newTitles);
+        }}
+      >
+        이거 누르면 제목 변경
+      </button>
+    </div>
   );
 }
 
