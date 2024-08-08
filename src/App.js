@@ -9,10 +9,13 @@ import { useState } from "react";
 
 // 이거 하나하나 컴포넌트!!
 function App() {
-  let title = "강남우동맛집";
   let [글제목, setTitle] = useState(["남자코트추천", "강보경", "정보경"]);
   let [좋아요, setLike] = useState([0, 0, 0]);
   let [modal, setModel] = useState(false);
+
+  let [title, 글제목변경] = useState(0);
+
+  let addTitle = "";
 
   const addLike = (index) => {
     let copy = [...좋아요];
@@ -31,7 +34,9 @@ function App() {
     setTitle(sortTitle);
   };
 
-  const openModal = () => {
+  const openModal = (index) => {
+    글제목변경(index);
+
     if (modal === true) {
       setModel(false);
     } else {
@@ -50,10 +55,15 @@ function App() {
       {글제목.map((제목, index) => {
         return (
           <div className="list" key={index}>
-            <h4 onClick={openModal}>
+            <h4
+              onClick={() => {
+                openModal(index);
+              }}
+            >
               {글제목[index]}
               <span
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   addLike(index);
                 }}
               >
@@ -61,11 +71,37 @@ function App() {
               </span>{" "}
               {좋아요[index]}
             </h4>
+            <button
+              onClick={() => {
+                let newTitles = [...글제목]; // 새로운 배열을 만들어서
+                delete newTitles[index];
+                setTitle(newTitles); // 새로운 배열을 상태로 설정
+              }}
+            >
+              삭제
+            </button>
           </div>
         );
       })}
 
-      {modal === true ? <Modal 글제목={글제목} setTitle={setTitle} /> : null}
+      <input
+        onChange={(e) => {
+          // 1. 여기서 글제목 상태 변경
+
+          addTitle = e.target.value;
+        }}
+      />
+      <button
+        onClick={() => {
+          let newTitles = [...글제목]; // 새로운 배열을 만들어서
+          newTitles.push(addTitle); // 첫 번째 제목을 변경
+          setTitle(newTitles); // 새로운 배열을 상태로 설정
+        }}
+      >
+        버튼
+      </button>
+
+      {modal === true ? <Modal 글제목={글제목} title={title} /> : null}
     </div>
   );
 }
@@ -74,16 +110,9 @@ function App() {
 function Modal(props) {
   return (
     <div className="modal">
-      <h4>{props.글제목}</h4>
-      <button
-        onClick={() => {
-          let newTitles = [...props.글제목];
-          newTitles[0] = "여자코트추천";
-          props.setTitle(newTitles);
-        }}
-      >
-        이거 누르면 제목 변경
-      </button>
+      <h4>{props.글제목[props.title]}</h4>
+      <p>날짜</p>
+      <p>상세내용</p>
     </div>
   );
 }
